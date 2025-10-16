@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title role="banner" aria-live="assertive" ng-bind="pageTitle"></title>
+	<link id="favicon" href="styles/img/bmcfavicon.ico" rel="shortcut icon" />
+	<link id="apple-touch-favicon" rel="apple-touch-icon" sizes="180x180" href="styles/img/bmc-logo.png">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<script>
+		//console.info is not working in IE11. May be it's a IE bug but it is working fine after inserting this code.
+		window.console = window.console || {};
+		window.ENV = 'distribution';
+	</script>
+
+	<link rel="stylesheet" href="styles/vendor/css/vendor.min.css">
+	<!--[if IE]>
+	<link rel="stylesheet" href="styles/css/smart-it.min-bundle-1.css">
+	<link rel="stylesheet" href="styles/css/smart-it.min-bundle-2.css">
+	<![endif]-->
+	<!--[if (!IE)|(gt IE 10)]><!-->
+	<link rel="stylesheet" href="styles/css/smart-it.min.css">
+	<!--<![endif]-->
+	<link rel="stylesheet" href="styles/css/components.min.css" />
+	<link rel="stylesheet" href="styles/css/style-smart-it-helix.css"/>
+
+	<!-- Customer customization -->
+	<link rel="stylesheet" href="/smartit/tenant-custom-res/style-smart-it.css" />
+
+</head>
+
+<!--[if IE]><body class="ie" ng-controller="MainController"><![endif]-->
+<!--[if (!IE)|(gt IE 10)]><!--> <body ng-controller="MainController" ng-class="{'iframe__min-width': insideChangeCalendar || insideIframe, 'mobile': isMobile}"> <!--<![endif]-->
+<system-alert-notificator ng-if="appState != APP_STATES.INDETERMINATE"></system-alert-notificator>
+
+<div ng-if="appState === APP_STATES.INDETERMINATE" class="app_indeterminate">
+	<div loading-spinner if="true" centered="true" overlay="true"></div>
+</div>
+
+<div ng-if="appState === APP_STATES.SHOW_WINDOW"> <div ui-view></div> </div>
+
+<div ng-if="appState === APP_STATES.SHOW_LOGIN" ng-include="'views/user/login.html'" class="full-screen"></div>
+<div ng-if="appState === APP_STATES.SHOW_MAIN" ng-include="'views/main.html'" class="app__container"></div>
+
+<script src="scripts/vendor/vendor.min.js"></script>
+<script src="scripts/vendor/plugins.min.js"></script>
+<script src="scripts/app/app.min.js"></script>
+<script src="scripts/app/templates.min.js"></script>
+<script src="scripts/components/components.min.js"></script>
+<script src="scripts/ckeditor/ckeditor.js"></script>
+<!-- DRSMX-79147: changes for favicon -->
+<script type="text/javascript">
+   $.get("/tenant-custom-res/000000000000001/custom-fav-icon.ico")
+            .done(function() {
+                console.log("Custom favicon exists.")
+                $("#favicon").attr("href", "/smartit/tenant-custom-res/custom-fav-icon.ico");
+
+         }).fail(function() {
+				console.log("Custom favicon does not exist.");
+            });
+        $.get("/tenant-custom-res/000000000000001/custom-apple-touch-logo.png")
+            .done(function() {
+                console.log("Custom apple-touch-favicon exists.")
+                $("#apple-touch-favicon").attr("href", "/smartit/tenant-custom-res/custom-apple-touch-logo.png");
+
+         }).fail(function() {
+				console.log("Custom apple-touch-favicon does not exists.");
+        });
+</script>
+
+<!-- fix for IE -->
+<script type="text/javascript">
+	if(!window.console) {
+		var console = {
+			log : function(){},
+			warn : function(){},
+			error : function(){},
+			time : function(){},
+			timeEnd : function(){}
+		}
+	}
+</script>
+<div ng-show="pwaHomeSrc">
+	<iframe style="position: absolute" iframe-onload="iframeLoadedCallBack()" src="{{pwaHomeSrc}}" class="app__pwa-home-iframe" frameborder="0" width="0" height="0"></iframe>
+</div>
+</body>
+</html>

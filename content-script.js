@@ -281,35 +281,62 @@ async function scrapeDetailPage() {
 
 // Extract data from detail page
 async function extractDetailPageData() {
-  // This is a placeholder - we'll need the actual rendered HTML
-  // to build the correct selectors
+  // =================================================================================
+  // TODO: UPDATE THESE SELECTORS
+  //
+  // The selectors below are placeholders. You need to inspect the HTML of a
+  // real ticket detail page to find the correct selectors for each data point.
+  //
+  // How to find selectors:
+  // 1. Open a ticket detail page in your browser.
+  // 2. Right-click on the data you want to scrape (e.g., the status text).
+  // 3. Select "Inspect" to open the browser's developer tools.
+  // 4. Find the HTML element that contains the text.
+  // 5. Right-click on the element and choose "Copy" > "Copy selector".
+  // 6. Paste the selector into the corresponding variable below.
+  // =================================================================================
   
-  // Based on your HTML docs, the detail page uses complex Angular components
-  // We'll need to wait for specific elements to appear
-  
-  const data = {
-    submitter: null,
-    detailedStatus: null,
-    description: null,
-    // Add more fields as needed
+  const selectors = {
+    // Selector for the element containing the ticket status
+    status: 'div.status-field-wrapper > span.status-text',
+    
+    // Selector for the element containing the customer's company name
+    customerCompany: 'div.customer-info-wrapper > span.company-name',
+    
+    // Selector for the element containing the submitter's name
+    submitter: '[aria-label*="Submitter"], [aria-label*="Requester"]',
+    
+    // Selector for the main ticket description/summary
+    description: 'div.description-field'
   };
   
-  // Try to extract submitter/requester
-  // This selector is a guess - we need the real rendered HTML
-  const submitterElement = document.querySelector('[aria-label*="Submitter"], [aria-label*="Requester"]');
-  if (submitterElement) {
-    data.submitter = submitterElement.textContent.trim();
-  }
+  const data = {
+    status: null,
+    customerCompany: null,
+    submitter: null,
+    description: null
+  };
   
-  // Try to extract detailed status
-  const statusElement = document.querySelector('[aria-label*="Status"]');
-  if (statusElement) {
-    data.detailedStatus = statusElement.textContent.trim();
-  }
+  // Helper function to safely query and get text content
+  const getText = (selector) => {
+    const element = document.querySelector(selector);
+    return element ? element.textContent.trim() : null;
+  };
+  
+  // Extract data using the defined selectors
+  data.status = getText(selectors.status);
+  data.customerCompany = getText(selectors.customerCompany);
+  data.submitter = getText(selectors.submitter);
+  data.description = getText(selectors.description);
   
   console.log('📝 Extracted detail data:', data);
   
-  return data;
+  // Return only the data that was successfully found
+  const foundData = Object.fromEntries(
+    Object.entries(data).filter(([_, value]) => value !== null)
+  );
+  
+  return Object.keys(foundData).length > 0 ? foundData : null;
 }
 
 // Utility: Wait for element to appear
