@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="url(#gradient)" />
+  
+  <!-- Ticket shape -->
+  <rect x="32" y="38" width="64" height="52" rx="4" fill="white" opacity="0.95"/>
+  
+  <!-- Ticket perforation circles (left side) -->
+  <circle cx="32" cy="48" r="3" fill="url(#gradient)" />
+  <circle cx="32" cy="58" r="3" fill="url(#gradient)" />
+  <circle cx="32" cy="68" r="3" fill="url(#gradient)" />
+  <circle cx="32" cy="78" r="3" fill="url(#gradient)" />
+  
+  <!-- Ticket perforation circles (right side) -->
+  <circle cx="96" cy="48" r="3" fill="url(#gradient)" />
+  <circle cx="96" cy="58" r="3" fill="url(#gradient)" />
+  <circle cx="96" cy="68" r="3" fill="url(#gradient)" />
+  <circle cx="96" cy="78" r="3" fill="url(#gradient)" />
+  
+  <!-- Ticket lines (text representation) -->
+  <rect x="42" y="48" width="32" height="3" rx="1.5" fill="url(#gradient)" opacity="0.6"/>
+  <rect x="42" y="58" width="44" height="3" rx="1.5" fill="url(#gradient)" opacity="0.6"/>
+  <rect x="42" y="68" width="36" height="3" rx="1.5" fill="url(#gradient)" opacity="0.6"/>
+  
+  <!-- Checkmark or Alert symbol -->
+  <circle cx="82" cy="78" r="8" fill="#48bb78" />
+  <path d="M 79 78 L 81 80 L 85 76" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

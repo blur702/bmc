@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG to PNG Icon Generator</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      padding: 40px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #888;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    .preview-container {
+      display: flex;
+      gap: 20px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+    .preview-box {
+      background: #2d2d2d;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .preview-box img {
+      display: block;
+      margin: 0 auto 10px;
+    }
+    .preview-box label {
+      display: block;
+      color: #667eea;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px 5px;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    .instructions {
+      background: #2d2d2d;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 30px;
+      border-left: 4px solid #667eea;
+    }
+    .instructions h3 {
+      color: #667eea;
+      margin-top: 0;
+    }
+    .instructions ol {
+      margin-left: 20px;
+      line-height: 1.8;
+    }
+    .instructions code {
+      background: #1a1a1a;
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: #48bb78;
+      font-family: 'Courier New', monospace;
+    }
+    #status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+    }
+    #status.success {
+      display: block;
+      background: #48bb78;
+      color: white;
+    }
+    #status.error {
+      display: block;
+      background: #f56565;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎫 Icon Generator for BMC Helix Monitor</h1>
+  <p class="subtitle">Convert SVG to PNG icons at multiple sizes</p>
+
+  <div class="preview-container">
+    <div class="preview-box">
+      <label>16×16</label>
+      <canvas id="canvas16" width="16" height="16"></canvas>
+    </div>
+    <div class="preview-box">
+      <label>32×32</label>
+      <canvas id="canvas32" width="32" height="32"></canvas>
+    </div>
+    <div class="preview-box">
+      <label>48×48</label>
+      <canvas id="canvas48" width="48" height="48"></canvas>
+    </div>
+    <div class="preview-box">
+      <label>128×128</label>
+      <canvas id="canvas128" width="128" height="128"></canvas>
+    </div>
+  </div>
+
+  <div style="text-align: center;">
+    <button onclick="generateIcons()">🎨 Generate All Icons</button>
+    <button onclick="downloadAll()">📥 Download All as ZIP</button>
+  </div>
+
+  <div id="status"></div>
+
+  <div class="instructions">
+    <h3>📝 Instructions</h3>
+    <ol>
+      <li>Click <strong>"Generate All Icons"</strong> to preview the icons</li>
+      <li>Right-click each canvas above and select <strong>"Save Image As..."</strong></li>
+      <li>Save them as:
+        <ul>
+          <li><code>icon16.png</code></li>
+          <li><code>icon32.png</code></li>
+          <li><code>icon48.png</code></li>
+          <li><code>icon128.png</code></li>
+        </ul>
+      </li>
+      <li>Place all icons in the <code>icons/</code> folder</li>
+      <li>Load the extension in Chrome!</li>
+    </ol>
+    
+    <p><strong>OR</strong> click "Download All as ZIP" to get all icons at once (if your browser supports it)</p>
+  </div>
+
+  <script>
+    // SVG source
+    const svgSource = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <circle cx="64" cy="64" r="60" fill="url(#gradient)" />
+        <rect x="32" y="38" width="64" height="52" rx="4" fill="white" opacity="0.95"/>
+        <circle cx="32" cy="48" r="3" fill="url(#gradient)" />
+        <circle cx="32" cy="58" r="3" fill="url(#gradient)" />
+        <circle cx="32" cy="68" r="3" fill="url(#gradient)" />
+        <circle cx="32" cy="78" r="3" fill="url(#gradient)" />
+        <circle cx="96" cy="48" r="3" fill="url(#gradient)" />
+        <circle cx="96" cy="58" r="3" fill="url(#gradient)" />
+        <circle cx="96" cy="68" r="3" fill="url(#gradient)" />
+        <circle cx="96" cy="78" r="3" fill="url(#gradient)" />
+        <rect x="42" y="48" width="32" height="3" rx="1.5" fill="url(#gradient)" opacity="0.6"/>
+        <rect x="42" y="58" width="44" height="3" rx="1.5" fill="url(#gradient)" opacity="0.6"/>
+        <rect x="42" y="68" width="36" height="3" rx="1.5" fill="url(#gradient)" opacity="0.6"/>
+        <circle cx="82" cy="78" r="8" fill="#48bb78" />
+        <path d="M 79 78 L 81 80 L 85 76" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `;
+
+    let generatedImages = {};
+
+    function generateIcons() {
+      const sizes = [16, 32, 48, 128];
+      const status = document.getElementById('status');
+      
+      try {
+        sizes.forEach(size => {
+          const canvas = document.getElementById(`canvas${size}`);
+          const ctx = canvas.getContext('2d');
+          
+          const img = new Image();
+          const blob = new Blob([svgSource], { type: 'image/svg+xml' });
+          const url = URL.createObjectURL(blob);
+          
+          img.onload = function() {
+            ctx.clearRect(0, 0, size, size);
+            ctx.drawImage(img, 0, 0, size, size);
+            URL.revokeObjectURL(url);
+            
+            // Store the data URL for downloading
+            canvas.toBlob(blob => {
+              generatedImages[`icon${size}.png`] = blob;
+            });
+          };
+          
+          img.src = url;
+        });
+        
+        status.className = 'success';
+        status.textContent = '✅ Icons generated! Right-click each image to save, or click "Download All as ZIP"';
+        
+      } catch (error) {
+        status.className = 'error';
+        status.textContent = '❌ Error generating icons: ' + error.message;
+      }
+    }
+
+    async function downloadAll() {
+      const status = document.getElementById('status');
+      
+      if (Object.keys(generatedImages).length === 0) {
+        status.className = 'error';
+        status.textContent = '❌ Please generate icons first!';
+        return;
+      }
+
+      // Try to use JSZip if available, otherwise download individually
+      if (typeof JSZip === 'undefined') {
+        // Download individually
+        for (const [filename, blob] of Object.entries(generatedImages)) {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          a.click();
+          URL.revokeObjectURL(url);
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        
+        status.className = 'success';
+        status.textContent = '✅ Downloaded all icons individually!';
+      } else {
+        // Use JSZip to create a zip file
+        const zip = new JSZip();
+        const folder = zip.folder('icons');
+        
+        for (const [filename, blob] of Object.entries(generatedImages)) {
+          folder.file(filename, blob);
+        }
+        
+        const content = await zip.generateAsync({ type: 'blob' });
+        const url = URL.createObjectURL(content);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'bmc-helix-icons.zip';
+        a.click();
+        URL.revokeObjectURL(url);
+        
+        status.className = 'success';
+        status.textContent = '✅ Downloaded icons.zip!';
+      }
+    }
+
+    // Auto-generate on page load
+    window.addEventListener('load', () => {
+      setTimeout(generateIcons, 500);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMC Helix Monitor</title>
+  <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🎫 Ticket Monitor</h1>
+      <div class="header-stats">
+        <span id="lastUpdate" class="last-update">Last update: Never</span>
+      </div>
+    </header>
+
+    <!-- My Tickets Section -->
+    <section class="ticket-section my-tickets">
+      <div class="section-header">
+        <h2>🙋 My Tickets</h2>
+        <span class="ticket-count" id="myTicketCount">0</span>
+      </div>
+      <div class="ticket-list" id="myTicketList">
+        <div class="empty-state">
+          <p>No tickets assigned to you yet</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Unassigned Tickets Section -->
+    <section class="ticket-section unassigned-tickets">
+      <div class="section-header">
+        <h2>🆕 Unassigned Tickets</h2>
+        <span class="ticket-count" id="unassignedTicketCount">0</span>
+      </div>
+      <div class="ticket-list" id="unassignedTicketList">
+        <div class="empty-state">
+          <p>No unassigned tickets detected</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="sidebar.js"></script>
+</body>
+</html>
