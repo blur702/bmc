@@ -1,0 +1,219 @@
+
+<!-- saved from url=(0097)https://house.fed.onbmc.com/arsys/pwa/login-light.html?origin=https://house-smartit.fed.onbmc.com -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><script>
+    (function () {
+
+        const BASE_URL = '/arsys/web';
+        const LOG_PREFIX = 'In login-light - ';
+
+        // just a dummy call, keeping the session Alive for SmartIT
+        setInterval(function () {
+            if (window.localStorage.pwaActivity == "true") {
+					window.parent.postMessage(JSON.stringify({action: 'keepAlive'}), localStorage.getItem('parentOrigin'));
+					window.localStorage.pwaActivity = "false";
+            }
+        }, 60000);
+
+        /*
+        * Get Query Params
+        */
+        function getQueryParam(name) {
+            var url = window.location.href,
+                tempName = name.replace(/[\[\]]/g, '\\$&'),
+                regex = new RegExp('[?&]' + tempName + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+
+            if (!results)  {
+                return null;
+            } else  if (!results[2]) {
+                return '';
+            }
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        /*
+        * Check if String is a valid JSON
+        */
+        function checkIfJson(str) {
+            if (str.length === 0) {
+                return false;
+            }
+            try {
+                JSON.parse(str);
+                if (!isNaN(str)) {
+                    return false;
+                }
+            } catch (e) {
+                return false;
+            }
+            return true;
+        }
+
+        // Setting the parent origin in order to make future postMessage calls to the parent.
+        var parentOrigin = getQueryParam('origin');
+        if (parentOrigin) {
+            localStorage.setItem('parentOrigin', parentOrigin);
+            // for identifying croosLaunch PWA access
+            localStorage.setItem('crossLaunch', 'true');
+            if (window.localStorage.crossTabCount && window.localStorage.smartITsessionActive == "true") {
+				window.localStorage.crossTabCount++;
+			} else {
+				window.localStorage.crossTabCount = 1;
+			}
+        }
+        
+        if(window.localStorage.crossTabCount == 1 && window.localStorage.smartITsessionActive == "true") {
+        	console.log('Smart-IT session is active - reset license release timer');
+        	setTimer(false);
+        }
+        
+        function setTimer(timer) {
+        	var url = BASE_URL + '/auth/releaseLicense';
+        	if (timer) {
+        		url = BASE_URL + '/auth/releaseLicense?lr=1';
+        	}
+        	console.log(LOG_PREFIX + ' setTimer url = '+url);
+        	if (navigator && navigator.sendBeacon){
+				navigator.sendBeacon(url);
+			} else {					
+				restPostCall(url, JSON.stringify({}), 'releaseLicense');	
+			}
+        }
+
+        /*
+        * Ajax request
+        * POST
+        */
+        var xhr = new XMLHttpRequest();
+        function restPostCall(url, json, type) {
+            xhr.open("POST", url, false);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.setRequestHeader("Accept", "application/json, text/plain, */*");
+            xhr.send(json);
+            if (xhr.status === 200) {
+                if (type === 'login') {
+		    		var response = JSON.parse(xhr.responseText);
+                    if (response.homeServer) {
+                        window.parent.postMessage(JSON.stringify({homeServer: response.homeServer}), localStorage.getItem('parentOrigin'));
+                    }
+                    localStorage.setItem('loggedInViaSmartIT', 'true');
+                    localStorage.setItem('currentUserId', response.user);
+                } else if (type === 'logout') {
+		    var isSSOEbl = localStorage.getItem('isSsoEnabled');
+                    cleanPwaStorage();
+                    if (isSSOEbl === 'true') {
+                        // Adding set Timeout with parity with smartit where we have a timeout of 1s
+                        setTimeout(function(){
+                            window.location.href = '/arsys/shared/loggedout.jsp';
+                        },1010)
+                    }
+                }
+            }
+        }
+
+        /*
+        * GET call
+        */
+        function restGetCall(url, type) {
+            xhr.open("GET", url, false);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send();
+            if (xhr.status === 200) {
+                console.log(url+' called');
+            }
+        }
+
+        /*
+        * Login to Midtier
+        */
+        function loginToMidtier(userName, password, authString) {
+            var url = BASE_URL + '/auth/login';
+            var jsonStr = JSON.stringify({
+                userName: userName,
+                password: password,
+                authString: ''
+            });
+            restPostCall(url, jsonStr, 'login');
+        }
+
+        /*
+        * Loguot from midtier
+        */
+        function logoutFromMidtier() {
+            var url = BASE_URL + '/auth/logout';
+            var jsonStr = JSON.stringify({});
+            restPostCall(url, jsonStr, 'logout');
+        }
+
+		function keepAlive() {
+			var url = BASE_URL + '/auth/keepalive';
+            restGetCall(url, 'keepAlive');
+		}
+        
+        function cleanPwaStorage() {
+            console.info('PWA storage cleaned');
+            var parentOrigin = localStorage.getItem('parentOrigin');
+            var crossTabCount = localStorage.getItem('crossTabCount');
+            var splitterUserSize = [];
+            for(const [key, value] of Object.entries(localStorage)) {
+                if(key.startsWith("pwa.") && key.endsWith(".splitter.width")) {
+                    splitterUserSize.push({key,value});
+                }
+            }
+			var logOut = localStorage.getItem('logOut');
+            localStorage.clear();
+            localStorage.setItem('parentOrigin', parentOrigin);
+            localStorage.setItem('crossTabCount', crossTabCount);
+            splitterUserSize.forEach((item) => {
+                localStorage.setItem(item.key, item.value);
+            });
+			if (logOut) {
+				localStorage.setItem('logOut', logOut);
+			}			
+        }
+        
+        /*
+        * Get message request from smartIT and handle them
+        */
+        window.onmessage = function (e) {
+            if (typeof e.data === 'string' && checkIfJson(e.data)) {
+                const parcelObject = JSON.parse(e.data);
+                if (parcelObject.hasOwnProperty('isLoginCredential')) {
+                    // send rest login call
+                    loginToMidtier(parcelObject.username, parcelObject.password, '');
+                } else if (parcelObject.hasOwnProperty('logout')) {
+                    // rest call logout
+                    logoutFromMidtier();
+                } else if (parcelObject.hasOwnProperty('keepAlive')) {
+					// rest call for keepAlive
+					keepAlive();
+				} else if (parcelObject.hasOwnProperty('smartITsessionActive')) {
+                	window.localStorage.smartITsessionActive = parcelObject.smartITsessionActive;
+                	if(window.localStorage.smartITsessionActive && window.localStorage.smartITsessionActive == 'false'){
+                		console.log(LOG_PREFIX + 'session either expired / not in active state');
+                		cleanPwaStorage();	
+                	}                	
+                } else if (parcelObject.hasOwnProperty('isSsoEnabled')) {
+                	console.info(LOG_PREFIX + 'message received isSsoEnabled = '+parcelObject.isSsoEnabled);
+                	window.localStorage.isSsoEnabled = parcelObject.isSsoEnabled;                	              	
+                }
+            }
+        };
+        
+        window.addEventListener('beforeunload', function(event) {
+        	console.log(LOG_PREFIX + 'beforeunload - crossTabCount = '+window.localStorage.crossTabCount);
+        	if (window.localStorage.crossTabCount && window.localStorage.smartITsessionActive == "true") {
+				window.localStorage.crossTabCount--;
+			}        	
+			if (window.localStorage.crossTabCount == 0 && window.localStorage.smartITsessionActive == "true"){    				
+				console.log(LOG_PREFIX + 'last active tab closed/Refreshed - license released');
+				setTimer(true);
+			}
+     	});
+
+    })();
+</script>
+</head><body style="height: 0; width: 0; position: absolute;">
+
+
+</body></html>

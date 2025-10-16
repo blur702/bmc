@@ -1,0 +1,424 @@
+:root,
+[data-theme="light"] {
+--border-radius: 4px !important;
+--font-family: Open Sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif  !important;
+
+--color-primary-disabled: rgba(128, 142, 155, 0.5) !important;
+--color-primary: #808e9b !important;
+--color-primary-hover: #63707D !important;
+--color-primary-active: #475460 !important;
+--color-primary-text: #FFFFFF !important;
+--color-primary-hover-text: #FFFFFF !important;
+--color-primary-active-text: #FFFFFF !important;
+--color-primary-muted: #C0DAF2 !important;
+--color-primary-muted-hover: #9DB7CE !important;
+--color-primary-muted-active: #7D96AD !important;
+--color-primary-muted-text: #262626 !important;
+
+--color-secondary-disabled: rgba(224, 224, 224, 0.5) !important;
+--color-secondary: #e0e0e0 !important;
+--color-secondary-hover: #BBBCBC !important;
+--color-secondary-active: #9A9B9B !important;
+--color-secondary-text: #262626 !important;
+--color-secondary-hover-text: #262626 !important;
+--color-secondary-active-text: #262626 !important;
+--color-secondary-muted: #D9D9D9 !important;
+--color-secondary-muted-hover: #B5B6B6 !important;
+--color-secondary-muted-active: #949595 !important;
+--color-secondary-muted-text: #262626 !important;
+
+--color-active-disabled: rgba(128, 142, 155, 0.5) !important;
+--color-active: #808e9b !important;
+--color-active-hover: #63707D !important;
+--color-active-active: #475460 !important;
+--color-active-text: #262626 !important;
+--color-active-hover-text: #FFFFFF !important;
+--color-active-active-text: #FFFFFF !important;
+--color-active-muted: #C0DAF2 !important;
+--color-active-muted-hover: #9DB7CE !important;
+--color-active-muted-active: #7D96AD !important;
+--color-active-muted-text: #262626 !important;
+
+--color-state-disabled: rgba(128, 142, 155, 0.5) !important;
+--color-state: #808e9b !important;
+--color-state-hover: #63707D !important;
+--color-state-active: #475460 !important;
+--color-state-text: #FFFFFF !important;
+--color-state-hover-text: #FFFFFF !important;
+--color-state-active-text: #FFFFFF !important;
+--color-state-muted: #C0DAF2 !important;
+--color-state-muted-hover: #9DB7CE !important;
+--color-state-muted-active: #7D96AD !important;
+--color-state-muted-text: #262626 !important;
+
+--color-info-disabled: rgba(60, 182, 206, 0.5) !important;
+--color-info: #3cb6ce !important;
+--color-info-hover: #0096AD !important;
+--color-info-active: #00788F !important;
+--color-info-text: #262626 !important;
+--color-info-hover-text: #FFFFFF !important;
+--color-info-active-text: #FFFFFF !important;
+--color-info-muted: #C0E9F2 !important;
+--color-info-muted-hover: #9CC4CD !important;
+--color-info-muted-active: #7BA3AC !important;
+--color-info-muted-text: #262626 !important;
+
+--color-success-disabled: rgba(137, 195, 65, 0.5) !important;
+--color-success: #89c341 !important;
+--color-success-hover: #6BA122 !important;
+--color-success-active: #4F8200 !important;
+--color-success-text: #262626 !important;
+--color-success-hover-text: #262626 !important;
+--color-success-active-text: #FFFFFF !important;
+--color-success-muted: #DBF2C0 !important;
+--color-success-muted-hover: #B6CC9D !important;
+--color-success-muted-active: #95AA7D !important;
+--color-success-muted-text: #262626 !important;
+
+--color-warning-disabled: rgba(241, 181, 33, 0.5) !important;
+--color-warning: #f1b521 !important;
+--color-warning-hover: #CC9400 !important;
+--color-warning-active: #A97500 !important;
+--color-warning-text: #262626 !important;
+--color-warning-hover-text: #262626 !important;
+--color-warning-active-text: #FFFFFF !important;
+--color-warning-muted: #F2E3C0 !important;
+--color-warning-muted-hover: #CCBE9D !important;
+--color-warning-muted-active: #AA9D7E !important;
+--color-warning-muted-text: #262626 !important;
+
+--color-danger-disabled: rgba(248, 50, 0, 0.5) !important;
+--color-danger: #f83200 !important;
+--color-danger-hover: #CD0500 !important;
+--color-danger-active: #A30000 !important;
+--color-danger-text: #FFFFFF !important;
+--color-danger-hover-text: #FFFFFF !important;
+--color-danger-active-text: #FFFFFF !important;
+--color-danger-muted: #F2CAC0 !important;
+--color-danger-muted-hover: #CDA79E !important;
+--color-danger-muted-active: #AB887F !important;
+--color-danger-muted-text: #262626 !important;
+
+--white: #ffffff !important;
+--gray-100: #fafafa !important;
+--gray-200: #f2f2f2 !important;
+--gray-300: #d9d9d9 !important;
+--gray-400: #bababa !important;
+--gray-500: #999999 !important;
+--gray-600: #808080 !important;
+--gray-700: #5e5e5e !important;
+--gray-800: #404040 !important;
+--gray-900: #262626 !important;
+--gray-1000: #1f1f1f !important;
+--black: #000000 !important;
+
+
+--dense-spacing-custom: false;
+--text-primary-color: #667482 !important;
+--text-active-color: #667482 !important;
+--text-danger-color: #DF2D00 !important;
+--text-success-color: #547926 !important;
+--text-warning-color: #8A6509 !important;
+--text-info-color: #217384 !important;
+
+--dense-spacing: 1.0;
+--logo-width: 2.9em !important;
+
+--nav-background: #262626 !important;
+--nav-links-color: #ffffff !important;
+--menu-dropdown-color-custom: #171717 !important;
+--menu-selected-color-custom: #000000 !important;
+--nav-icon-color: #ffffff !important;
+--nav-dropdown-dark-color-active-background: #000000 !important;
+--nav-dropdown-dark-color: #212121 !important;
+--nav-dropdown-dark-color-triangle: #000000 !important;
+--nav-selection-color: var(--color-state);
+--nav-selection-hover-color: var(--color-state-hover);
+--logo-light: url("/api/rx/application/theme/rx-theme-small-logo-light");
+--logo: url("/api/rx/application/theme/rx-theme-small-logo-dark");
+
+--lightCVTagColor: #fa035a !important;
+--lightCVFunctionNameColor: #0242b3 !important;
+--lightCVFunctionColor: #ad4d00 !important;
+--lightCVSymbol: #bc890c !important;
+--lightCVKeyword: #875ccb !important;
+--lightCVVariable: #628d2c !important;
+--lightCVEntity: #258699 !important;
+--lightCVInserted: #008000 !important;
+--darkCVTagColor: #ff656c !important;
+--darkCVFunctionNameColor: #328dee !important;
+--darkCVFunctionColor: #faa159 !important;
+--darkCVSymbol: #f6cf6f !important;
+--darkCVKeyword: #aab0fa !important;
+--darkCVVariable: #b2d884 !important;
+--darkCVEntity: #80d0df !important;
+
+
+--helix-gpt-main-color: #808e9b !important;
+--color-helix-gpt-hover: #d05100 !important;
+--mobile-adder: 0rem !important;
+--mobile-line-height-base: 0 !important;;
+--mobile-header-font: 0rem !important;;
+--mobile-additional-padding: 0rem !important;;
+--mobile-form-additional-padding: 0rem !important;;
+--mobile-additional-px: 0px !important;;
+--mobile-vert-padding: 0rem !important;;
+
+--helix-gpt-main-border-color-primary: rgba(128, 142, 155, 0.5) !important;
+--helix-gpt-main-background-alt-color-primary: rgba(128, 142, 155, 0.1) !important;
+
+--helix-gpt-main-border-color-success: rgba(137, 195, 65, 0.5) !important;
+--helix-gpt-main-background-alt-color-success: rgba(137, 195, 65, 0.1) !important;
+
+--helix-gpt-button-background-color: rgba(128, 142, 155, 0.07) !important;
+--helix-gpt-button-boxshadow-color: rgba(128, 142, 155, 0.2) !important;
+
+}
+
+[data-theme="dark"] {
+--dark-mode:true;
+
+--color-primary-disabled: rgba(128, 142, 155, 0.5) !important;
+--color-primary: #808e9b !important;
+--color-primary-hover: #63707D !important;
+--color-primary-active: #475460 !important;
+--color-primary-text: #FFFFFF !important;
+--color-primary-hover-text: #FFFFFF !important;
+--color-primary-active-text: #FFFFFF !important;
+--color-primary-muted: #123454 !important;
+--color-primary-muted-hover: #001637 !important;
+--color-primary-muted-active: #000000 !important;
+--color-primary-muted-text: #FFFFFF !important;
+
+--color-active-disabled: rgba(128, 142, 155, 0.5) !important;
+--color-active: #808e9b !important;
+--color-active-hover: #63707D !important;
+--color-active-active: #475460 !important;
+--color-active-text: #FFFFFF !important;
+--color-active-hover-text: #FFFFFF !important;
+--color-active-active-text: #FFFFFF !important;
+--color-active-muted: #123454 !important;
+--color-active-muted-hover: #001637 !important;
+--color-active-muted-active: #000000 !important;
+--color-active-muted-text: #FFFFFF !important;
+
+--color-state-disabled: rgba(128, 142, 155, 0.5) !important;
+--color-state: #808e9b !important;
+--color-state-hover: #63707D !important;
+--color-state-active: #475460 !important;
+--color-state-text: #FFFFFF !important;
+--color-state-hover-text: #FFFFFF !important;
+--color-state-active-text: #FFFFFF !important;
+--color-state-muted: #123454 !important;
+--color-state-muted-hover: #001637 !important;
+--color-state-muted-active: #000000 !important;
+--color-state-muted-text: #FFFFFF !important;
+
+--color-info-disabled: rgba(60, 182, 206, 0.5) !important;
+--color-info: #3cb6ce !important;
+--color-info-hover: #0096AD !important;
+--color-info-active: #00788F !important;
+--color-info-text: #FFFFFF !important;
+--color-info-hover-text: #FFFFFF !important;
+--color-info-active-text: #FFFFFF !important;
+--color-info-muted: #124954 !important;
+--color-info-muted-hover: #002C37 !important;
+--color-info-muted-active: #000D18 !important;
+--color-info-muted-text: #FFFFFF !important;
+
+--color-success-disabled: rgba(137, 195, 65, 0.5) !important;
+--color-success: #89c341 !important;
+--color-success-hover: #6BA122 !important;
+--color-success-active: #4F8200 !important;
+--color-success-text: #FFFFFF !important;
+--color-success-hover-text: #262626 !important;
+--color-success-active-text: #FFFFFF !important;
+--color-success-muted: #375412 !important;
+--color-success-muted-hover: #1D3700 !important;
+--color-success-muted-active: #031800 !important;
+--color-success-muted-text: #FFFFFF !important;
+
+--color-warning-disabled: rgba(241, 181, 33, 0.5) !important;
+--color-warning: #f1b521 !important;
+--color-warning-hover: #CC9400 !important;
+--color-warning-active: #A97500 !important;
+--color-warning-text: #FFFFFF !important;
+--color-warning-hover-text: #262626 !important;
+--color-warning-active-text: #FFFFFF !important;
+--color-warning-muted: #544112 !important;
+--color-warning-muted-hover: #362500 !important;
+--color-warning-muted-active: #150800 !important;
+--color-warning-muted-text: #FFFFFF !important;
+
+--color-danger-disabled: rgba(255, 86, 45, 0.5) !important;
+--color-danger: #FF562D !important;
+--color-danger-hover: #D63812 !important;
+--color-danger-active: #AD1800 !important;
+--color-danger-text: #FFFFFF !important;
+--color-danger-hover-text: #FFFFFF !important;
+--color-danger-active-text: #FFFFFF !important;
+--color-danger-muted: #541F12 !important;
+--color-danger-muted-hover: #2F0400 !important;
+--color-danger-muted-active: #000000 !important;
+--color-danger-muted-text: #FFFFFF !important;
+
+--white: #1f1f1f !important;
+--gray-100: #262626 !important;
+--gray-200: #404040 !important;
+--gray-300: #5e5e5e !important;
+--gray-400: #808080 !important;
+--gray-500: #999999 !important;
+--gray-600: #bababa !important;
+--gray-700: #d9d9d9 !important;
+--gray-800: #f2f2f2 !important;
+--gray-900: #fafafa !important;
+--gray-1000: #ffffff !important;
+--black: #000000 !important;
+
+--text-primary-color: #808e9b !important;
+--text-active-color: #808e9b !important;
+--text-danger-color: #FF562D !important;
+--text-success-color: #89c341 !important;
+--text-warning-color: #f1b521 !important;
+--text-info-color: #3cb6ce !important;
+
+--mobile-adder: 0rem !important;
+--mobile-line-height-base: 0 !important;;
+--mobile-header-font: 0rem !important;;
+--mobile-additional-padding: 0rem !important;;
+--mobile-form-additional-padding: 0rem !important;;
+--mobile-additional-px: 0px !important;;
+--mobile-vert-padding: 0rem !important;;
+
+--helix-gpt-main-border-color-primary: rgba(128, 142, 155, 0.5) !important;
+--helix-gpt-main-background-alt-color-primary: rgba(128, 142, 155, 0.1) !important;
+
+--helix-gpt-main-border-color-success: rgba(137, 195, 65, 0.5) !important;
+--helix-gpt-main-background-alt-color-success: rgba(137, 195, 65, 0.1) !important;
+
+}
+
+[data-theme="accessible"] {
+--accessible-mode: true;
+
+--color-primary-disabled: rgba(102, 116, 130, 0.5) !important;
+--color-primary: #667482 !important;
+--color-primary-hover: #4A5865 !important;
+--color-primary-active: #2E3C49 !important;
+--color-primary-text: #FFFFFF !important;
+--color-primary-hover-text: #FFFFFF !important;
+--color-primary-active-text: #FFFFFF !important;
+--color-primary-muted: #C0D9F2 !important;
+--color-primary-muted-hover: #9DB6CE !important;
+--color-primary-muted-active: #7D95AD !important;
+--color-primary-muted-text: #262626 !important;
+
+--color-secondary-disabled: rgba(107, 107, 107, 0.5) !important;
+--color-secondary: #6B6B6B !important;
+--color-secondary-hover: #4F4F4F !important;
+--color-secondary-active: #333434 !important;
+--color-secondary-text: #FFFFFF !important;
+--color-secondary-hover-text: #FFFFFF !important;
+--color-secondary-active-text: #FFFFFF !important;
+--color-secondary-muted: #D9D9D9 !important;
+--color-secondary-muted-hover: #B5B6B6 !important;
+--color-secondary-muted-active: #949595 !important;
+--color-secondary-muted-text: #262626 !important;
+
+--color-active-disabled: rgba(102, 116, 130, 0.5) !important;
+--color-active: #667482 !important;
+--color-active-hover: #4A5865 !important;
+--color-active-active: #2E3C49 !important;
+--color-active-text: #FFFFFF !important;
+--color-active-hover-text: #FFFFFF !important;
+--color-active-active-text: #FFFFFF !important;
+--color-active-muted: #C0D9F2 !important;
+--color-active-muted-hover: #9DB6CE !important;
+--color-active-muted-active: #7D95AD !important;
+--color-active-muted-text: #262626 !important;
+
+--mobile-adder: 0rem !important;
+--mobile-line-height-base: 0 !important;;
+--mobile-header-font: 0rem !important;;
+--mobile-additional-padding: 0rem !important;;
+--mobile-form-additional-padding: 0rem !important;;
+--mobile-additional-px: 0px !important;;
+--mobile-vert-padding: 0rem !important;;
+
+--color-state-disabled: rgba(102, 116, 130, 0.5) !important;
+--color-state: #667482 !important;
+--color-state-hover: #4A5865 !important;
+--color-state-active: #2E3C49 !important;
+--color-state-text: #FFFFFF !important;
+--color-state-hover-text: #FFFFFF !important;
+--color-state-active-text: #FFFFFF !important;
+--color-state-muted: #C0D9F2 !important;
+--color-state-muted-hover: #9DB6CE !important;
+--color-state-muted-active: #7D95AD !important;
+--color-state-muted-text: #262626 !important;
+
+--color-info-disabled: rgba(33, 115, 132, 0.5) !important;
+--color-info: #217384 !important;
+--color-info-hover: #005667 !important;
+--color-info-active: #003A4A !important;
+--color-info-text: #FFFFFF !important;
+--color-info-hover-text: #FFFFFF !important;
+--color-info-active-text: #FFFFFF !important;
+--color-info-muted: #C0E9F2 !important;
+--color-info-muted-hover: #9CC4CD !important;
+--color-info-muted-active: #7BA3AC !important;
+--color-info-muted-text: #262626 !important;
+
+--color-success-disabled: rgba(84, 121, 38, 0.5) !important;
+--color-success: #547926 !important;
+--color-success-hover: #395B09 !important;
+--color-success-active: #203E00 !important;
+--color-success-text: #FFFFFF !important;
+--color-success-hover-text: #FFFFFF !important;
+--color-success-active-text: #FFFFFF !important;
+--color-success-muted: #DBF2C0 !important;
+--color-success-muted-hover: #B6CC9D !important;
+--color-success-muted-active: #95AA7D !important;
+--color-success-muted-text: #262626 !important;
+
+--color-warning-disabled: rgba(138, 101, 9, 0.5) !important;
+--color-warning: #8A6509 !important;
+--color-warning-hover: #6B4900 !important;
+--color-warning-active: #4B2E00 !important;
+--color-warning-text: #FFFFFF !important;
+--color-warning-hover-text: #FFFFFF !important;
+--color-warning-active-text: #FFFFFF !important;
+--color-warning-muted: #F2E3C0 !important;
+--color-warning-muted-hover: #CCBE9D !important;
+--color-warning-muted-active: #AA9D7E !important;
+--color-warning-muted-text: #262626 !important;
+
+--color-danger-disabled: rgba(223, 45, 0, 0.5) !important;
+--color-danger: #DF2D00 !important;
+--color-danger-hover: #B60100 !important;
+--color-danger-active: #8C0000 !important;
+--color-danger-text: #FFFFFF !important;
+--color-danger-hover-text: #FFFFFF !important;
+--color-danger-active-text: #FFFFFF !important;
+--color-danger-muted: #F2CAC0 !important;
+--color-danger-muted-hover: #CDA79E !important;
+--color-danger-muted-active: #AB887F !important;
+--color-danger-muted-text: #262626 !important;
+
+--lightCVTagColor: #E10351 !important;
+--lightCVFunctionNameColor: #0242b3 !important;
+--lightCVFunctionColor: #ad4d00 !important;
+--lightCVSymbol: #8C6609 !important;
+--lightCVKeyword: #875ccb !important;
+--lightCVVariable: #547A26 !important;
+--lightCVEntity: #207484 !important;
+--lightCVInserted: #008000 !important;
+--darkCVTagColor: #ff656c !important;
+--darkCVFunctionNameColor: #4A9AF0 !important;
+--darkCVFunctionColor: #faa159 !important;
+--darkCVSymbol: #f6cf6f !important;
+--darkCVKeyword: #aab0fa !important;
+--darkCVVariable: #b2d884 !important;
+--darkCVEntity: #80d0df !important;
+
+}

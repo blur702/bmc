@@ -1,0 +1,382 @@
+
+<!-- saved from url=(0038)https://house.fed.onbmc.com/arsys/pwa/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <style type="text/css">
+      body,
+      table {
+        background: #ffffff;
+        font-family: Open Sans, -apple-system, BlinkMacSystemFont, Segoe UI,
+          Roboto, Helvetica Neue, Arial, sans-serif;
+        font-size: 12px;
+      }
+
+      td {
+        width: 25%;
+        padding: 5px;
+        vertical-align: top;
+      }
+
+      .container {
+        border: 1px solid #eee;
+        padding: 7px;
+        font-weight: bold;
+      }
+
+      #arrow-right,
+      #arrow-down {
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+      }
+
+      .arrow-class {
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+      }
+
+      .header {
+        cursor: pointer;
+        background: #f5f5f5;
+        padding: 9px 7px;
+        position: relative;
+        border: 1px solid #dddddd;
+      }
+
+      .header:hover {
+        color: #00a79d;
+      }
+
+      .close {
+        position: absolute;
+        padding: 5px 0;
+        cursor: pointer;
+        right: 15px;
+        top: 3px;
+        width: 12px;
+      }
+
+      .hide {
+        display: none;
+      }
+
+      .label {
+        color: #7c7f81;
+        margin-top: 5px;
+        line-height: 18px;
+      }
+
+      .value {
+        padding-bottom: 5px;
+        color: #333;
+        font-size: 13px;
+        line-height: 18px;
+      }
+
+      .link {
+        color: #00a79d;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .link:hover {
+        text-decoration: underline;
+      }
+
+      .property-box {
+        display: inline-block;
+        width: 90%;
+      }
+
+      .mcsm-ticket-container {
+        margin-bottom: 8px;
+      }
+
+      .summary > span {
+        font-size: 13px;
+        line-height: 15px;
+        color: #333333;
+      }
+
+      @media (max-width: 425px) {
+        .property-box {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="content"></div>
+    <script>
+      setTimeout(function () {
+        showContent();
+      }, 100);
+    </script>
+    <script type="text/javascript">
+      var isOpen = false;
+      var ticket;
+      var viewFieldId = "304432731";
+      var mcsmJSON = ``;
+      var readOnlyMCSMTicket = `1`;
+      var openedInPrint = false;
+      var selectedTicketID = "";
+
+      try {
+        ticket = JSON.parse(mcsmJSON);
+      } catch (e) {
+        ticket = {};
+      }
+      ticket = ticket && ticket.tickets ? ticket.tickets : {};
+      var placeholdersKey = ["id", "updated", "status", "title", "description"],
+        placeholders = [];
+
+      if (ticket && ticket.length > 0) {
+        ticket.forEach(function (item, i) {
+          var obj = {};
+
+          obj.id = item.id;
+          obj.dataplace = [];
+          obj.propertiesHTML = [];
+
+          if (item && item.properties && item.properties.fixedProperties) {
+            item.properties.fixedProperties.forEach(function (item) {
+              let index = placeholdersKey.indexOf(item.name);
+              obj.dataplace[index] = {
+                label: item.label,
+                value: item.value || "--",
+              };
+              if (item.name === "updated") {
+                obj.dataplace[index].value = new Date(item.value) || "--";
+              }
+              if (item.name === "id") {
+                obj.dataplace[index] = {
+                  label: item.label,
+                  value: item.value || "--",
+                };
+              }
+            });
+          }
+
+          if (item && item.properties && item.properties.dynamicProperties) {
+            let str = "";
+            let i = 0;
+            item.properties.dynamicProperties.forEach(function (item) {
+              item.value = item.value || "--";
+              str +=
+                "<td colspan='2'><div class='property-box'><div class='label'>" +
+                item.name +
+                "</div><div class='value'>" +
+                item.value +
+                "</div></div></td>";
+              i++;
+              if (i === 4) {
+                obj.propertiesHTML.push(str);
+                str = "";
+                i = 0;
+              }
+            });
+            if (str.trim().length) obj.propertiesHTML.push(str);
+          }
+
+          placeholders.push(obj);
+        });
+      }
+
+      function hideContainer(ticketId) {
+        safeCheckSet("arrow-right" + ticketId, "display", "block");
+        safeCheckSet("arrow-down" + ticketId, "display", "none");
+        safeCheckSet("container" + ticketId, "addClass", "hide");
+      }
+
+      function showContainer(ticketId) {
+        safeCheckSet("arrow-right" + ticketId, "display", "none");
+        safeCheckSet("arrow-down" + ticketId, "display", "block");
+        safeCheckSet("container" + ticketId, "removeClass", "hide");
+      }
+
+      function handleEvent(eventName, tickedId) {
+        if (parent && parent.DView && parent.DView.SendSignalToParent) {
+          parent.DView.SendSignalToParent(/*MODIFIED_BY_CODE*/1,undefined, eventName, tickedId);
+        }
+      }
+
+      function safeCheckSet(id, property, value) {
+        var ele = document.getElementById(id);
+        if (ele) {
+          if (property == "display") {
+            ele.style.display = value;
+          } else if (property == "text") {
+            ele.innerText = value;
+          } else if (property == "addClass") {
+            ele.classList.add(value);
+          } else if (property == "removeClass") {
+            ele.classList.remove(value);
+          } else if (property == "html") {
+            ele.innerHTML = value;
+          }
+        }
+      }
+
+      function toggleContainer(ticketId) {
+        if (isOpen == false) {
+          if (selectedTicketID == ticketId) {
+            var currentTicketObj = document.getElementById(
+              "container" + ticketId
+            );
+            if (currentTicketObj.classList.contains("hide")) {
+              showContainer(ticketId);
+            } else {
+              hideContainer(ticketId);
+            }
+          } else {
+            if (selectedTicketID == "") {
+              showContainer(ticketId);
+            } else {
+              hideContainer(selectedTicketID);
+              showContainer(ticketId);
+            }
+            selectedTicketID = ticketId;
+          }
+        }
+        if (openedInPrint) {
+          placeholders.forEach(function (item, i) {
+            showContainer(item.id);
+          });
+        }
+        setParentHeight();
+      }
+
+      function showContent() {
+        var contentData = "";
+
+        for (var i = 0; i < ticket.length; i++) {
+          var closeBtnClass = "";
+          if (readOnlyMCSMTicket == "Yes" || readOnlyMCSMTicket == 0) {
+            closeBtnClass = "hide";
+          }
+
+          contentData +=
+            "<div class='mcsm-ticket-container'><div class='header'><div class='close " +
+            closeBtnClass +
+            "' onclick='handleEvent(\"" +
+            "closeBtnClick_MCSMTemplate" +
+            '", "' +
+            ticket[i].id +
+            "\")'  role='button' aria-pressed='false'><img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgICA8cGF0aCBkPSJNMTQuMjIsMTJMMjIsMTkuNzhMMTkuNzgsMjJMMTIsMTQuMjJMNC4yMiwyMkwyLDE5Ljc4TDkuNzgsMTJMMiw0LjIyTDQuMjIsMkwxMiw5Ljc4TDE5Ljc4LDJMMjIsNC4yMkwxNC4yMiwxMgoJeiIvPgo8L3N2Zz4K'></div><div class='summary' id='summary' onclick='toggleContainer(\"" +
+            ticket[i].id +
+            "\")' role='button' aria-pressed='false'><img id='arrow-right" +
+            ticket[i].id +
+            "' class='arrow-class' src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMSIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDExIDMyIj4KPHBhdGggZD0iTTIuMDIyIDYuMzkxbC0yLjAzNCAyLjEzIDcuMTI3IDcuNDc5LTcuMTI3IDcuNDc5IDIuMDM0IDIuMTMgOS4xNzctOS42MDl6Ij48L3BhdGg+Cjwvc3ZnPgo=' style='float: left;'><img id='arrow-down" +
+            ticket[i].id +
+            "' class='arrow-class' src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOSIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDE5IDMyIj4KPHBhdGggZD0iTS0wIDEyLjQyOGwyLjEzLTIuMDM0IDcuNDc5IDcuMTI3IDcuNDc5LTcuMTI3IDIuMTMgMi4wMzQtOS42MDkgOS4xNzd6Ij48L3BhdGg+Cjwvc3ZnPgo=' style='float: left; display: none;'><span id='1'>" +
+            ticket[i].vendor.name +
+            " " +
+            ticket[i].id +
+            "</span></div></div><div id='container" +
+            ticket[i].id +
+            "' class='container hide'><table style='width:100%'><tbody id='tableBody'><tr><td colspan='2'><div class='label' id='" +
+            ticket[i].id +
+            1 +
+            "_label'>Ticket ID</div><div class='link icon' style='float: left;'></div><div class='value link' id='" +
+            ticket[i].id +
+            1 +
+            "' onclick='openVendorTicket(\"" +
+            ticket[i].vendorTicketUrl +
+            "\")' role='button' aria-pressed='false'>CON-6395</div></td><td colspan='2'><div class='label' id='" +
+            ticket[i].id +
+            4 +
+            "_label'>Title</div><div class='value' id='" +
+            ticket[i].id +
+            4 +
+            "'>PBI000000001980 Automation test: Problem to Jira Bug</div></td><td colspan='2'> <div class='label' id='" +
+            ticket[i].id +
+            2 +
+            "_label'>Last Update</div><div class='value' id='" +
+            ticket[i].id +
+            2 +
+            "'>Tue Apr 06 2021 06:39:31 GMT+0530 (India Standard Time)</div></td></tr><tr><td colspan='4'><div class='label' id='" +
+            ticket[i].id +
+            5 +
+            "_label'>Description</div><div class='value' id='" +
+            ticket[i].id +
+            5 +
+            "'></div></td><td colspan='2'><div class='label' id='" +
+            ticket[i].id +
+            3 +
+            "_label'>Status</div><div class='value' id='" +
+            ticket[i].id +
+            3 +
+            "'>To Do</div></td></tr></tbody></table></div></div>";
+        }
+        document.getElementById("content").innerHTML = contentData;
+
+        placeholders.forEach(function (item, i) {
+          item.dataplace.forEach(function (item2, j) {
+            var k = j + 1;
+            if (k <= 5) {
+              safeCheckSet(item.id + k + "_label", "text", item2.label);
+              safeCheckSet(item.id + k + "", "text", item2.value);
+            }
+          });
+          let tableBody = document.getElementById("tableBody");
+          item.propertiesHTML.forEach(function (itemTR, i) {
+            let tr = document.createElement("tr");
+            tr.id = item.id + (i + 6) + "";
+            tr.innerHTML = itemTR;
+            tableBody.appendChild(tr);
+          });
+        });
+
+        var contentBlock = document.querySelector("body div");
+        var height = 0;
+        height = 52 * ticket.length;
+
+        window.parent.document.getElementById(viewFieldId).style.height =
+          height + "px";
+        window.parent.document.getElementById("VF" + viewFieldId).style.height =
+          height + "px";
+      }
+
+      function setParentHeight() {
+        var contentBlock = document.querySelector("body div");
+        var height = 0;
+
+        height = contentBlock.offsetHeight + 30;
+        window.parent.document.getElementById(viewFieldId).style.height =
+          height + "px";
+        window.parent.document.getElementById("VF" + viewFieldId).style.height =
+          height + "px";
+      }
+
+      function openVendorTicket(vendorTicketUrl) {
+        window.open(vendorTicketUrl);
+      }
+
+      window.addEventListener("beforeprint", function (event) {
+        if (!isOpen) {
+          openedInPrint = true;
+          isOpen = true;
+          toggleContainer();
+        }
+        window.parent.document.getElementById(viewFieldId).style.overflow =
+          "hidden";
+      });
+      window.addEventListener("afterprint", function (event) {
+        if (openedInPrint) {
+          openedInPrint = false;
+          isOpen = false;
+          toggleContainer();
+        }
+        window.parent.document.getElementById(viewFieldId).style.overflow =
+          "auto";
+      });
+    </script>
+  
+
+</body></html>

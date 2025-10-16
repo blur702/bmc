@@ -1,0 +1,62 @@
+.header__logo {
+    background: url("../img/BMCHelix-White.svg") no-repeat;
+    width: 114px;
+}
+.header__app-name {
+    font-family: "OpenSansLight";
+    width: 48px;
+    height: 54px;
+    font-size: 0px;
+}
+.header__app-name:before {
+    content: "ITSM";
+    font-size: 22px;
+}
+
+.header__app-name:after{
+    left: 196px;
+    margin-top: -10px;
+}
+
+.header__logo {
+    margin-top: 13px;
+}
+
+.navigation-bar__items-container {
+    margin-left: 0px;
+}
+
+.login-form__logo-bmc {
+    background: url("../img/BMCHelix-black.svg") no-repeat;
+}
+
+.login-form__logo-product, .about__caption {
+    font-size: 0px;
+}
+
+.login-form__logo-product:after {
+    content: "ITSM";
+    font-size: 24px;
+    margin: 0px 0px 0px -3px;
+}
+
+.about__caption{
+    background: url("../img/BMCHelix-black.svg") no-repeat center right;
+    margin-right: 170px;
+}
+
+.about__caption:after {
+    content: "About BMC Helix ITSM";
+    font-size: 40px
+}
+
+.login-footer-logo {
+    background: url("../img/BMCHelix-White.svg") no-repeat 0 20px;
+    margin-right: 20px;
+}
+
+
+
+.
+
+

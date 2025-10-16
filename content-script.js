@@ -282,60 +282,100 @@ async function scrapeDetailPage() {
 // Extract data from detail page
 async function extractDetailPageData() {
   // =================================================================================
-  // TODO: UPDATE THESE SELECTORS
+  // SELECTORS FOR BMC HELIX DETAIL PAGE
   //
-  // The selectors below are placeholders. You need to inspect the HTML of a
-  // real ticket detail page to find the correct selectors for each data point.
-  //
-  // How to find selectors:
-  // 1. Open a ticket detail page in your browser.
-  // 2. Right-click on the data you want to scrape (e.g., the status text).
-  // 3. Select "Inspect" to open the browser's developer tools.
-  // 4. Find the HTML element that contains the text.
-  // 5. Right-click on the element and choose "Copy" > "Copy selector".
-  // 6. Paste the selector into the corresponding variable below.
+  // These selectors were found using the find-selectors.js script.
+  // They are based on the actual rendered DOM of BMC Helix detail pages.
   // =================================================================================
-  
+
   const selectors = {
-    // Selector for the element containing the ticket status
-    status: 'div.status-field-wrapper > span.status-text',
-    
-    // Selector for the element containing the customer's company name
-    customerCompany: 'div.customer-info-wrapper > span.company-name',
-    
-    // Selector for the element containing the submitter's name
-    submitter: '[aria-label*="Submitter"], [aria-label*="Requester"]',
-    
-    // Selector for the main ticket description/summary
-    description: 'div.description-field'
+    // Ticket Number - using ID pattern that contains incident data
+    // Falls back to searching for INC pattern in text
+    ticketNumber: [
+      '[id*="ar1000000161_data"]',  // Primary: field with incident number
+      '[id*="incident"]',             // Fallback: any ID containing "incident"
+    ],
+
+    // Assignee - using aria-label
+    assignee: '[aria-label="Assigned to"]',
+
+    // Customer Company - using aria-label
+    customerCompany: '[aria-label="Customer"]',
+
+    // Status - using aria-label
+    status: '[aria-label="Status"]',
+
+    // Submitter - try multiple possible labels
+    submitter: [
+      '[aria-label*="Submitter"]',
+      '[aria-label*="Requester"]',
+      '[aria-label*="Submitted"]'
+    ],
+
+    // Priority - using aria-label (trim whitespace)
+    priority: '[aria-label*="Priority"]',
+
+    // Description/Summary
+    description: '[aria-label*="Description"], [aria-label*="Summary"]'
   };
   
   const data = {
-    status: null,
+    ticketNumber: null,
+    assignee: null,
     customerCompany: null,
+    status: null,
     submitter: null,
+    priority: null,
     description: null
   };
-  
+
   // Helper function to safely query and get text content
+  // Supports both single selectors and arrays of selectors (tries each in order)
   const getText = (selector) => {
+    // If selector is an array, try each one
+    if (Array.isArray(selector)) {
+      for (const sel of selector) {
+        const element = document.querySelector(sel);
+        if (element) {
+          const text = element.textContent.trim();
+          if (text) return text;
+        }
+      }
+      return null;
+    }
+
+    // Single selector
     const element = document.querySelector(selector);
     return element ? element.textContent.trim() : null;
   };
-  
+
   // Extract data using the defined selectors
-  data.status = getText(selectors.status);
+  data.ticketNumber = getText(selectors.ticketNumber);
+  data.assignee = getText(selectors.assignee);
   data.customerCompany = getText(selectors.customerCompany);
+  data.status = getText(selectors.status);
   data.submitter = getText(selectors.submitter);
+  data.priority = getText(selectors.priority);
   data.description = getText(selectors.description);
-  
+
+  // If ticket number wasn't found via selector, try to extract from page text
+  if (!data.ticketNumber) {
+    const incPattern = /INC0\d+/;
+    const bodyText = document.body.textContent;
+    const match = bodyText.match(incPattern);
+    if (match) {
+      data.ticketNumber = match[0];
+      console.log('📋 Found ticket number via text search:', data.ticketNumber);
+    }
+  }
+
   console.log('📝 Extracted detail data:', data);
-  
+
   // Return only the data that was successfully found
   const foundData = Object.fromEntries(
-    Object.entries(data).filter(([_, value]) => value !== null)
+    Object.entries(data).filter(([_, value]) => value !== null && value !== '')
   );
-  
+
   return Object.keys(foundData).length > 0 ? foundData : null;
 }
 
